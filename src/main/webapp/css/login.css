@@ -1,0 +1,85 @@
+@charset "UTF-8";
+#login{
+  padding-top:300px;
+  height:720px;
+  position:relative;
+}
+#login-area{
+  text-align: center;
+  background: #ffffff;
+  width:800px;
+  height:650px;
+  padding:92px;
+  margin-top:150px;
+  margin:auto;
+}
+#login-area h1{
+  margin:auto;
+  font-family: 16px 'Nanum Gothic', sans-serif;
+  display: inline-block;
+  color:black;
+}
+#login-input{
+  padding-top:20px;
+}
+div .schedule{
+		position:relative;
+		text-align:center;
+		margin-left:50%;
+	}
+.login-text {
+    width: 400px;
+    height: 60px;
+    margin: 0;
+    padding: 0px 20px;
+    border: 1px solid #d0d0d0;
+    color: #888;
+    background: none;
+    border-radius: 5px;
+    -ms-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -o-border-radius: 5px;
+    -moz-border-radius: 5px;
+    box-shadow: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    letter-spacing: 0.5px;
+    vertical-align: top;
+}
+#login-position{
+  float:center;
+  margin:auto;
+   padding: 10px 20px;
+}
+.login-pos{
+  padding-right:20px;
+  width: 15px;
+  height: 15px;
+  border: 0 !important;
+  padding: 0;
+  font-size: 0;
+  line-height: 0;
+  margin-right: 8px;
+  vertical-align: top;
+  cursor: pointer;
+}
+label{
+  padding-right:20px;
+}
+.loginbtn{
+  width: 435px;
+  font-weight: bold;
+    height: 50px;
+    margin: 5px 0;
+    padding: 13px 15px;
+    background: #C7CEA3;
+    border:0;
+    outline:0;
+    color:white;
+    line-height:1.4;
+    font-size:17px;
+}
+.loginit{
+  padding-top:15px;
+}

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boardMapper">
+   <!-- 게시판 글 작성 -->
+   <insert id="insert" parameterType="kr.co.vo.BoardVO" useGeneratedKeys="true" keyProperty="board_id">
+	   <selectKey keyProperty="board_id" resultType="int" order="BEFORE">
+	    	SELECT BOARD_SEQ.NEXTVAL FROM DUAL
+	    </selectKey>
+	  
+	   INSERT INTO BOARD(    BOARD_ID 
+	   						  , USERID
+	   					      , BOARD_TITLE 
+	   					      , BOARD_CONTENT  
+	   					     
+	   					     
+	   					       )
+	                 VALUES(   #{board_id}
+	                 		  , #{userid}
+	                 		  , #{board_title}
+	                 		  , #{board_content}
+	                 		
+	                 		  
+	                 		   )
+ 
+   </insert>
+   <select id="list" resultType="kr.co.vo.BoardVO">
+		SELECT   BOARD_ID
+			   , USERID
+			   , BOARD_TITLE
+			   , BOARD_CONTENT
+			   , BOARD_DATE
+		  FROM BOARD
+		  ORDER BY BOARD_ID DESC
+	</select>
+	<select id="read" parameterType="int" resultType="kr.co.vo.BoardVO">
+		SELECT	 BOARD_ID
+			   , USERID
+			   , BOARD_TITLE
+			   , BOARD_CONTENT
+			   , BOARD_DATE
+			   , VIEWS
+		 FROM BOARD
+		 WHERE BOARD_ID = #{board_id}
+	</select>
+	<update id="update" parameterType="kr.co.vo.BoardVO">
+		UPDATE BOARD
+		   SET BOARD_TITLE    =   #{board_title},
+		   	   BOARD_CONTENT  =   #{board_content}
+		 WHERE BOARD_ID = #{board_id} 
+	</update>
+	<delete id="delete" parameterType="int">
+		DELETE 
+		  FROM BOARD
+		 WHERE BOARD_ID = #{board_id}
+	</delete>
+	<select id="listPage" resultType="kr.co.vo.BoardVO" parameterType="kr.co.vo.SearchCriteria">
+		SELECT  BOARD_ID, 
+				USERID,
+		        BOARD_TITLE, 
+		        BOARD_CONTENT,
+		        BOARD_DATE,
+		        VIEWS
+		 FROM ( 
+		        SELECT BOARD_ID, 
+						USERID,
+				        BOARD_TITLE, 
+				        BOARD_CONTENT,
+				        BOARD_DATE,
+				        VIEWS,
+		               ROW_NUMBER() OVER(ORDER BY BOARD_ID DESC) AS RNUM
+		         FROM BOARD
+		         WHERE 1=1 
+		         	<include refid="search"></include>
+		                       ) MP
+		WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
+		ORDER BY BOARD_ID DESC
+	</select>
+	
+	<select id="listCount" parameterType="kr.co.vo.SearchCriteria" resultType="int">
+		SELECT COUNT(BOARD_ID)
+		   FROM BOARD
+		   WHERE 1=1
+		<include refid="search"></include>	
+		   AND BOARD_ID > 0
+	</select>
+	
+	<sql id="search">
+		<if test="searchType != null">
+			<if test="searchType == 't'.toString()">AND BOARD_TITLE LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'c'.toString()">AND BOARD_CONTENT LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'w'.toString()">AND USERID LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'tc'.toString()">AND (BOARD_TITLE LIKE '%' || #{keyword} || '%') or (BOARD_CONTENT LIKE '%' || #{keyword} || '%')</if>
+		</if>
+	</sql>
+	<!-- 게시판 조회수 -->
+    <update id="boardHit" parameterType="int">
+    	UPDATE BOARD SET
+    	VIEWS = VIEWS+1
+    	WHERE BOARD_ID = #{board_id}
+    </update>
+    
+	<insert id="insertFile" parameterType="hashMap">
+		INSERT INTO MP_FILE(
+			FILE_NO,
+			BOARD_ID,
+			ORG_FILE_NAME,
+			STORED_FILE_NAME,
+			FILE_SIZE
+		)VALUES(
+			SEQ_MP_FILE_NO.NEXTVAL,
+			#{BOARD_ID},
+			#{ORG_FILE_NAME},
+			#{STORED_FILE_NAME},
+			#{FILE_SIZE}
+		)
+    </insert>
+    <!-- 첨부파일 조회 -->
+	<select id="selectFileList" parameterType="int" resultType="hashMap">
+		SELECT FILE_NO,
+			   ORG_FILE_NAME,
+			   ROUND(FILE_SIZE/1024,1) AS FILE_SIZE
+		  FROM MP_FILE
+		 WHERE BOARD_ID = #{BOARD_ID}
+		   AND DEL_GB = 'N'
+		   ORDER BY FILE_NO ASC
+	</select>
+	
+	<!-- 첨부파일 다운 -->
+	<select id="selectFileInfo" parameterType="hashMap" resultType="hashMap">
+		SELECT 
+			STORED_FILE_NAME,
+			ORG_FILE_NAME
+		FROM MP_FILE
+		WHERE FILE_NO = #{FILE_NO}
+		
+		
+	</select>
+	
+	<update id="updateFile" parameterType="hashMap">
+    	UPDATE MP_FILE SET
+    	DEL_GB = 'Y'
+    	WHERE FILE_NO = #{FILE_NO}
+    </update>
+
+</mapper>

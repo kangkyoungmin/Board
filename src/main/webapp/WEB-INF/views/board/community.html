@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<title>Insert title here</title>
+<style type="text/css">
+table{
+	border-collapse:collapse;
+}
+
+.list_wrap{
+	padding:50px;
+}
+.list{
+	width:80%;
+	margin:auto;
+	border-top:1px solid navy;
+}
+.list td, th{
+	padding:10px;
+	font-size:14px;
+	text-align:center;
+}
+.list tr{
+	border-bottom:1px solid #999;
+}
+.list td:nth-child(2){
+	text-align:left;
+}
+.list_wrap .page a:first-child{
+	margin-left: 0;
+}
+.list_wrap .page{
+	margin-top:20px;
+	font-size:0;
+	text-align:center;
+}
+.list_wrap .page a {
+	display:inline-block;
+	padding: 5px 10px;
+	border:1px solid black;
+	font-size:12px;
+	border-top:medium;
+	
+}
+.list_wrap .page a.p{
+	background:#eee;
+	border:1px solid #eee;
+	color:black;
+	text-decoration:none;
+}
+
+.list_wrap .page a.num{
+	font-weight:600;
+	border:1px solid #eee;
+	text-decoration:none;
+	color:black;
+}
+#write{
+	margin-right:12%;
+}
+#name{
+	padding: 10px;
+	text-align-last: center;
+}
+.search{
+	margin-left:12%
+}
+</style>
+
+</head>
+<body>
+<h3 id="name"> 커뮤니티 </h3>
+<a href="write.jsp"><button  id="write" style="float: right;"> 글쓰기 </button></a>
+<div class="list_wrap">
+	<table class="list">
+	<tr>
+	 <th>작성일</th> <th> 제목</th> <th> 닉네임 </th> <th> 조회</th>
+	 </tr>
+	 
+	 <tr>
+	 <td>21-01-25</td> <td><a href="community_detail.html"> oo 연봉 오류</a>  </td> <td> 운영자 </td> <td> 3</td>
+	 </tr>
+	</table>
+	
+	<div class="page">
+		<a href="#" class="p">이전</a>
+		<a href="#" class="num">1</a>
+		<a href="#" class="num">2</a>
+		<a href="#" class="num">3</a>
+		<a href="#" class="num">4</a>
+		<a href="#" class="num">5</a>
+		<a href="#" class="p">다음</a>
+	</div>
+	<table class="search">
+	<tr>
+	<td>
+	<input type="search" name="keyword" >
+    <input type="submit" value="검색">
+    </td>
+    </tr>
+    </table>
+</div>
+
+
+
+</body>
+</html>
